@@ -10,7 +10,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # nvm install <node_version>, nvm install --lts
 # nvm current
 # nvm list
-# nvm use <node_version>,  nvm use --lts
+# nvm use <node_version>,  
+nvm use --lts
 ```
 
 install node package manager:
