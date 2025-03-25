@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NewTodoForm } from "../Components/NewTodoForm.jsx";
 import { ToDolist } from "../Components/ToDolist.jsx";
 import "../static/styles.css";
@@ -6,10 +6,22 @@ import "../static/styles.css";
 // Returning jsx element (React component)
 function App() {
   // Using useState hooks to change the state of "todolist" (array of objects with id, title, completed attributes) 
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState(() => {
+    // Default state value taken from local storage
+    const localValue = localStorage.getItem("ITEMS");
+    return localValue ? JSON.parse(localValue) : [];
+  });
 
-  
-  // Moved
+  // useEffect Hook takes a function and array as arguments and runs the function any time the array changes
+  // The function saves the todoList to local storage (browser temporary storage)
+  // NOTE: states and useEffect must be placed at the top level of the component
+  useEffect(() => {    
+    localStorage.setItem("ITEMS", JSON.stringify(todoList));
+  }, [todoList])
+
+  // Moved item state to NewTodoForm component
+  // but NewTodoForm component still needs to access setToDoList function
+  // so we pass the function as a prop to NewTodoForm component
   function addTodoItem(title) {
       // Define state as a function to take the current todoList and adds a new item to it
       // setTodoList moved out of handleSubmit function but passed to component NewTodoForm as props
